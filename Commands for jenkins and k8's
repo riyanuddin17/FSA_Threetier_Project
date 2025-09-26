@@ -158,7 +158,8 @@ sudo chmod +x /usr/local/bin/kubectl
 kubectl version
 
 6) In ~ directory run because for kops to create other instance we need to have the public and private keys so that it can ssh:
->>[~]: ssh-keygen
+
+>> cd ~ AND THEN  ssh-keygen
 
 7) Create the cluster:
 export KOPS_STATE_STORE=s3://riyansbucketkops
