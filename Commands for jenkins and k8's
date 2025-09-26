@@ -168,6 +168,8 @@ kops create cluster --name=test.k8s.local --zones=us-east-1a,us-east-1b --node-c
 
 kubectl create namespace three-tier
 
+sudo cat ~/.kube/config
+
 ##IT WILL TAKE 10 MINUTES FOR CREATING CLUSTER BECAUSE KOPS HAS ITS OWN VPC, SUBNETS AND ALB AND ALL SO IT WILL TAKE TIME TO CREATE ALL THOSE RESOURCES
 
 
