@@ -44,16 +44,7 @@ SonarQube:
 
 Run on machine java
 op:
->> sudo apt install openjdk-17-jre-headless -y         --> USE THIS
-ci/cd or automation -> release tool
-
-(or)
-
-0. Install JAVA:
->> sudo apt update
->> sudo apt install fontconfig openjdk-21-jre
->> sudo apt install openjdk-11-jdk
-
+>> sudo apt install openjdk-17-jre-headless -y   
 
 1.
 Jenkins Installation:
@@ -76,6 +67,7 @@ echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc]" \
   /etc/apt/sources.list.d/jenkins.list > /dev/null
 sudo apt update
 sudo apt install jenkins
+sudo systemctl start Jenkins
 sudo systemctl enable Jenkins
 sudo usermod -aG docker jenkins
 
