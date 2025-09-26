@@ -1,0 +1,27 @@
+Frontend:
+
+docker run -d \
+  --name frontend \
+  -p 3000:3000 \
+  -e REACT_APP_BACKEND_URL="http://backend.amanpathakdevops.study/api/tasks" \
+  407622020962.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
+
+
+Backend:
+docker run -d \
+  --name backend \
+  -p 3500:3500 \
+  -e MONGO_CONN_STR="mongodb://mongodb-svc:27017/todo?directConnection=true" \
+  -e MONGO_USERNAME="<your-mongo-username>" \
+  -e MONGO_PASSWORD="<your-mongo-password>" \
+  407622020962.dkr.ecr.us-east-1.amazonaws.com/backend:latest
+
+MongoDB:
+docker run -d \
+  --name mongodb \
+  -p 27017:27017 \
+  -e MONGO_INITDB_ROOT_USERNAME="<your-mongo-username>" \
+  -e MONGO_INITDB_ROOT_PASSWORD="<your-mongo-password>" \
+  -v /data/db:/data/db \
+  mongo:4.4.6 \
+  numactl --interleave=all mongod --wiredTigerCacheSizeGB 0.1 --bind_ip 0.0.0.0

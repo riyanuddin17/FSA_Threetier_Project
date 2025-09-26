@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+    environment {
+        NAMESPACE    = 'three-tier'
+    }
+
+    stages {
+        stage('Clone') {
+            steps {
+                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/riyanuddin17/TWSThreeTierAppChallenge.git'
+            }
+        }
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    // Use Jenkins credential that stores your kubeconfig
+                    withKubeConfig([credentialsId: 'test-kops-kubeconfig']) {
+                        sh "kubectl apply -f Kubernetes-Manifests-file/Database/ -n ${NAMESPACE}"
+                    }
+                }
+            }
+        }
+    }
+}

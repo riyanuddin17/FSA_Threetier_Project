@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  mongodb:
+    image: mongo:4.4.6
+    container_name: mongodb
+    command: >
+      mongod
+      --wiredTigerCacheSizeGB 0.1
+      --bind_ip 0.0.0.0      
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: riyan
+      MONGO_INITDB_ROOT_PASSWORD: test
+      # For using below create .env file and pass in it so it will directly pick from there
+      # MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      # MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  backend:
+    build: ./backend
+    image: backend:local
+    container_name: backend
+    depends_on:
+      - mongodb
+    environment:
+      MONGO_CONN_STR: mongodb://riyan:test@mongodb:27017/admin
+      MONGO_USERNAME: riyan
+      MONGO_PASSWORD: test
+      # MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      # MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    ports:
+      - "3500:3500"
+
+  frontend:
+    build: ./frontend
+    image: frontend:local
+    container_name: frontend
+    depends_on:
+      - backend
+    environment:
+      REACT_APP_BACKEND_URL: http://<ip>:3500/api/tasks                    #Pass the en2 ip
+    ports:
+      - "3000:3000"
+
+# For below we are using "Named Volume" which will  be created in /var/lib/docker/volumes/mongo-data/_data
+volumes:
+  mongo-data:

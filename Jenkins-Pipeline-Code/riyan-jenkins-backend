@@ -1,0 +1,63 @@
+pipeline {
+    agent any
+    tools {
+        nodejs "Nodejs"
+    }
+
+    environment {
+        DOCKER_IMAGE = 'riyanuddin/backend:latest'
+        NAMESPACE    = 'three-tier'
+    }
+
+    stages {
+        stage('Clone') {
+            steps {
+                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/riyanuddin17/TWSThreeTierAppChallenge.git'
+            }
+        }
+
+        stage('Build Frontend') {
+            steps {
+                dir('Application-Code/backend') {
+                    sh 'npm install'
+                }
+            }
+        }
+        stage('TRIVY FS SCAN') {
+            steps {
+                dir('Application-Code/backend') {
+                    sh "trivy fs . > trivyfs_backend.txt"
+                }
+            }
+        }
+
+        stage('Docker Build & Push Backend') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: '241c7517-0bff-4825-af81-251eba028004', toolName: 'docker') {
+                        dir('Application-Code/backend') {
+                            sh "docker build -t backend ."
+                            sh "docker tag backend ${DOCKER_IMAGE}"
+                            sh "docker push ${DOCKER_IMAGE}"
+                        }
+                    }
+                }
+            }
+        }
+        stage("TRIVY"){
+            steps{
+                sh "trivy image ${DOCKER_IMAGE} > trivyimage_backend.txt" 
+            }
+        }
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    // Use Jenkins credential that stores your kubeconfig
+                    withKubeConfig([credentialsId: 'test-kops-kubeconfig']) {
+                        sh "kubectl apply -f Kubernetes-Manifests-file/Backend/ -n ${NAMESPACE}"
+                    }
+                }
+            }
+        }
+    }
+}
