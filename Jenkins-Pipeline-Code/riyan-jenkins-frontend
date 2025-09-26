@@ -74,6 +74,7 @@ pipeline {
                     // Use Jenkins credential that stores your kubeconfig
                     withKubeConfig([credentialsId: 'test-kops-kubeconfig']) {
                         sh "kubectl apply -f Kubernetes-Manifests-file/Frontend/ -n ${NAMESPACE}"
+                        sh "kubectl rollout restart deployment frontend -n ${NAMESPACE}"
                     }
                 }
             }
