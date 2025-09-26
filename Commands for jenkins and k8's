@@ -166,6 +166,8 @@ export KOPS_STATE_STORE=s3://riyansbucketkops
 
 kops create cluster --name=test.k8s.local --zones=us-east-1a,us-east-1b --node-count=2 --node-size=t2.medium --master-size=t2.medium --node-volume-size=20 --master-volume-size=20 --yes 
 
+kubectl create namespace three-tier
+
 ##IT WILL TAKE 10 MINUTES FOR CREATING CLUSTER BECAUSE KOPS HAS ITS OWN VPC, SUBNETS AND ALB AND ALL SO IT WILL TAKE TIME TO CREATE ALL THOSE RESOURCES
 
 
