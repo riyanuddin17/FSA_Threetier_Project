@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/riyanuddin17/TWSThreeTierAppChallenge.git'
+                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/riyanuddin17/FSA_Threetier_Project.git'
             }
         }
 
