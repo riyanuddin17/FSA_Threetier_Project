@@ -31,6 +31,6 @@ spec:
         imagePullPolicy: IfNotPresent
         env:
           - name: REACT_APP_BACKEND_URL
-            value: "http://54.234.19.232:30002/api/tasks"        
+            value: "http://44.203.126.29:30002/api/tasks"        
         ports:
         - containerPort: 3000
