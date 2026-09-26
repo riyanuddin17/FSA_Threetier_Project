@@ -8,7 +8,7 @@ t2.large
 
 K8's
 Ubuntu
-worksataion-> t2..medium, with 20 GB
+worksataion-> t2.medium, with 20 GB
 master-node-> t2..medium
 worker-node-> t2.medium
 
