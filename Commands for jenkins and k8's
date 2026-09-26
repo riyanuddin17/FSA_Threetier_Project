@@ -111,6 +111,18 @@ docker-build-step
 CloudBees Docker Build and Publish
 Kubernetes
 Kubernetes CLI
+
+----------------------------------------------------------------
+OWASP:
+
+PLEASE USE OWASP CONFIGURATION:
+Jenkins -> Settings -> Tools -> Dependency-Check installations
+Select: 
+Name: DP-Check
+Install automatically: 
+1. Install from github.com
+2. dependency-check 12.1.3
+
 --------------------------------------------------------------------------------------------
 
 4)...Trivy install on Jenkins machine:
